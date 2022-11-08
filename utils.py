@@ -1,4 +1,5 @@
-"""Util.py has a modified class definition
+"""
+util.py has a modified class definition
 we use to create pytorch readable files for
 training/testing
 """
@@ -12,8 +13,10 @@ import torch
 
 
 class TestbedDataset(InMemoryDataset):
-    """the class defined below is
-    for testing the dataset
+    """
+    The following class is used solely for the purpose 
+    of creating the .pt files that can be used by pytorch
+    to run predictions
     """
 
     def __init__(self, root="/tmp", dataset="davis",
@@ -42,27 +45,36 @@ class TestbedDataset(InMemoryDataset):
 
     @property
     def raw_file_names(self):
-        """returns raw_file_names
+        """
+        returns raw_file_names
         """
         # pass
         # return ['some_file_1', 'some_file_2', ...]
 
     @property
     def processed_file_names(self):
-        """returns the processes file names
+        """
+        returns the processes file names
         """
         return [self.dataset + ".pt"]
 
     def download(self):
-        """used to download
+        """
+        unimplemented function
         """
         # Download to `self.raw_dir`.
         # pass
 
     def _download(self):
+        """
+        unimplemented function
+        """
         pass
 
     def _process(self):
+        """
+        Create directory if it does not exist
+        """
         if not os.path.exists(self.processed_dir):
             os.makedirs(self.processed_dir)
 
@@ -72,7 +84,8 @@ class TestbedDataset(InMemoryDataset):
     # y_affinity: list of labels (i.e. affinity)
     # Return: PyTorch-Geometric format processed data
     def process(self, x_d, x_t, y_affinity, smile_graph):
-        """the main processing function
+        """
+        The main function that converts the data into a .pt file
         """
         assert len(x_d) == len(x_t) and len(x_t) == len(
             y_affinity
@@ -111,33 +124,38 @@ class TestbedDataset(InMemoryDataset):
 
 
 def rmse(y_affinity, var_f):
-    """root mean squared deviation
+    """
+    Calculate root mean squared deviation
     """
     return sqrt(((y_affinity - var_f) ** 2).mean(axis=0))
 
 
 def mse(y_affinity, var_f):
-    """mean squred error
+    """
+    Calculate mean squred error
     """
     return ((y_affinity - var_f) ** 2).mean(axis=0)
 
 
 def pearson(y_affinity, var_f):
-    """calculating pearson's coefficient
+    """
+    Calculate pearson's coefficient
     """
     corr_coeff = np.corrcoef(y_affinity, var_f)[0, 1]
     return corr_coeff
 
 
 def spearman(y_affinity, var_f):
-    """calculating spearman's rho
+    """
+    Calculate spearman's rho
     """
     spear_rho = stats.spearmanr(y_affinity, var_f)[0]
     return spear_rho
 
 
 def c_i(y_affinity, var_f):
-    """comment explaining this function
+    """
+    Calculate Concordance Index
     """
     ind = np.argsort(y_affinity)
     y_affinity = y_affinity[ind]

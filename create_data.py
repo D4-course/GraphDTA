@@ -1,4 +1,7 @@
-"""python file responsible for creating data
+"""
+File responsible for converting processing the davis and kiba
+datasets as well as for converting the user input into a 
+pytorch file for prediction purposes
 """
 import pandas as pd
 import numpy as np
@@ -17,7 +20,10 @@ MAX_SEQ_LEN = 1000
 
 
 def atom_features(atom):
-    """featurizing the atom? mugundan help
+    """
+    Converts the features of the atoms into a form 
+    that can be made into a graph 
+    implementation to run graph algos on
     """
     return np.array(
         one_of_k_encoding_unk(
@@ -81,7 +87,8 @@ def atom_features(atom):
 
 
 def one_of_k_encoding(var_x, allowable_set):
-    """one of k enconding
+    """
+    Subfunction of atom features
     """
     if var_x not in allowable_set:
         raise Exception("input {0} not in allowable set{1}:".format(var_x, allowable_set))
@@ -121,14 +128,20 @@ def smile_to_graph(smile):
 
 
 def seq_cat(prot):
-    """seq cat function
+    """
+    Crops protein sequence and does mapping
     """
     np_x = np.zeros(MAX_SEQ_LEN)
     for i, c_h in enumerate(prot[:MAX_SEQ_LEN]):
         np_x[i] = SEQ_DICT[c_h]
     return np_x
 
+"""
+Reads the kiba and davis .csv files 
+to make a smiles graph used in creating the pytorch files
 
+This is automatically run when the folder is imported
+"""
 COMPOUND_ISO_SMILES = []
 for dt_name in ["kiba", "davis"]:
     opts = ["train", "test"]
@@ -143,14 +156,22 @@ for smile_seq in COMPOUND_ISO_SMILES:
 
 
 def verify_smile(smile):
-    """used for verifying mol from smiles
+    """
+    Verify if the input sequence is a smile
     """
     return not MolFromSmiles(smile) is None
 
+def verify_protein(prot):
+    """
+    Verify if the sequence is a protein
+    """
+    formatted_prot = prot.translate(str.maketrans("", "", " \n\t")).upper()
+    return set(formatted_prot).issubset(set("ACDEFGHIKLMNPQRSTVWXY"))
 
 def create_test(iso_smile, target):
-    """create test data
-    taking smiles and target protein
+    """
+    Taking user input, create a pytorch file of the 
+    data to be tested
     """
     # convert to PyTorch data format
     # unused variable incoming

@@ -1,4 +1,6 @@
-"""prediction with pretrained model
+"""
+This file predicts the output based on the
+model, dataset, graph network and test data chosen by the user
 """
 # import numpy as np
 # import pandas as pd
@@ -21,7 +23,8 @@ CUDA_NAME = "cuda:0" # pylint: disable=invalid-name
 TEST_BATCH_SIZE = 512
 
 def predicting(model, device, loader):
-    """beginning prediction
+    """
+    Loads the trained model and test data and does the prediction
     """
     model.eval()
     total_preds = torch.Tensor()
@@ -36,7 +39,9 @@ def predicting(model, device, loader):
     return total_preds.numpy().flatten()
 
 def predict(dataset, modeling):
-    """prediction function
+    """
+    Overall function used to ensure that the test data file
+    exists and sets up the required files for the prediction
     """
     modeling = MODELINGS[modeling]
     processed_data_file_test = 'data/processed/test.pt'
