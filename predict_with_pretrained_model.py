@@ -14,9 +14,8 @@ from models.gcn import GCNNet
 from models.ginconv import GINConvNet
 from utils import *
 
-datasets = ["davis", "kiba"]
-modelings = [GINConvNet, GATNet, GAT_GCN, GCNNet]
-cuda_name = "cuda:0" # pylint: disable=invalid-name
+MODELINGS = [GINConvNet, GATNet, GAT_GCN, GCNNet]
+CUDA_NAME = "cuda:0" # pylint: disable=invalid-name
 # cuda constant name uppercasing not possible
 
 TEST_BATCH_SIZE = 512
@@ -39,7 +38,7 @@ def predicting(model, device, loader):
 def predict(dataset, modeling):
     """prediction function
     """
-    modeling = modelings[modeling]
+    modeling = MODELINGS[modeling]
     processed_data_file_test = 'data/processed/test.pt'
     if not os.path.isfile(processed_data_file_test):
         print('please run create_data.py to prepare data in pytorch format!')
@@ -49,7 +48,7 @@ def predict(dataset, modeling):
     model_st = modeling.__name__
     print("\npredicting for ", dataset, " using ", model_st)
     # training the model
-    device = torch.device(cuda_name if torch.cuda.is_available() else "cpu") # pylint: disable=no-member
+    device = torch.device(CUDA_NAME if torch.cuda.is_available() else "cpu") # pylint: disable=no-member
     model = modeling().to(device)
     model_file_name = "trained_models/model_" + model_st + "_" + dataset + ".model"
     if os.path.isfile(model_file_name):

@@ -16,17 +16,9 @@ class TestbedDataset(InMemoryDataset):
     for testing the dataset
     """
 
-    def __init__(
-        self,
-        root="/tmp",
-        dataset="davis",
-        x_d=None,
-        x_t=None,
-        y_affinity=None,
-        transform=None,
-        pre_transform=None,
-        smile_graph=None,
-    ):
+    def __init__(self, root="/tmp", dataset="davis",
+                 x_d=None, x_t=None, y_affinity=None,
+                 transform=None, pre_transform=None, smile_graph=None):
 
         # root is required for save preprocessed data, default is '/tmp'
         super(TestbedDataset, self).__init__(root, transform, pre_transform)
