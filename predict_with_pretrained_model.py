@@ -31,11 +31,11 @@ def predicting(model, device, loader):
 
 def predict(dataset, modeling):
     modeling = modelings[modeling]
-    processed_data_file_test = 'data/processed/' + dataset + '_test.pt'
+    processed_data_file_test = 'data/processed/test.pt'
     if (not os.path.isfile(processed_data_file_test)):
         print('please run create_data.py to prepare data in pytorch format!')
     else:
-        test_data = TestbedDataset(root='data', dataset=dataset+'_test')
+        test_data = TestbedDataset(root='data', dataset='test')
         test_loader = DataLoader(test_data, batch_size=TEST_BATCH_SIZE, shuffle=False)
         model_st = modeling.__name__
         print('\npredicting for ', dataset, ' using ', model_st)
@@ -44,7 +44,7 @@ def predict(dataset, modeling):
         model = modeling().to(device)
         model_file_name = 'trained_models/model_' + model_st + '_' + dataset +  '.model'
         if os.path.isfile(model_file_name):            
-            model.load_state_dict(torch.load(model_file_name))
+            model.load_state_dict(torch.load(model_file_name, map_location=torch.device('cpu')))
             P = predicting(model, device, test_loader)
             print("The Predicted Drug Target Affinity is ", P)
             return P

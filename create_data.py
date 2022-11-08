@@ -61,13 +61,16 @@ compound_iso_smiles = []
 for dt_name in ['kiba','davis']:
     opts = ['train','test']
     for opt in opts:
-        df = pd.read_csv('./original/data/' + dt_name + '_' + opt + '.csv')
+        df = pd.read_csv('./data/' + dt_name + '_' + opt + '.csv')
         compound_iso_smiles += list( df['compound_iso_smiles'] )
 compound_iso_smiles = set(compound_iso_smiles)
 SMILE_GRAPH = {}
 for smile in compound_iso_smiles:
     g = smile_to_graph(smile)
     SMILE_GRAPH[smile] = g
+
+def verify_smile(smile):
+    return not (MolFromSmiles(smile) is None)
 
 def create_test(iso_smile, target):
     # convert to PyTorch data format
