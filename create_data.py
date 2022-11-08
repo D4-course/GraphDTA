@@ -129,17 +129,17 @@ def seq_cat(prot):
     return np_x
 
 
-compound_iso_smiles = []
+COMPOUND_ISO_SMILES = []
 for dt_name in ["kiba", "davis"]:
     opts = ["train", "test"]
     for opt in opts:
         df = pd.read_csv("./data/" + dt_name + "_" + opt + ".csv")
-        compound_iso_smiles += list(df["compound_iso_smiles"])
-compound_iso_smiles = set(compound_iso_smiles)
+        COMPOUND_ISO_SMILES += list(df["compound_iso_smiles"])
+COMPOUND_ISO_SMILES = set(COMPOUND_ISO_SMILES)
 SMILE_GRAPH = {}
-for smile in compound_iso_smiles:
-    g = smile_to_graph(smile)
-    SMILE_GRAPH[smile] = g
+for smile_seq in COMPOUND_ISO_SMILES:
+    g = smile_to_graph(smile_seq)
+    SMILE_GRAPH[smile_seq] = g
 
 
 def verify_smile(smile):

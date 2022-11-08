@@ -30,13 +30,13 @@ RUN apt-get update && apt-get install -y wget curl unzip libxml2 cuda-minimal-bu
 
 # RUN conda install pyg -c pyg
 
-# RUN pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-1.4.0.html
+RUN pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-1.4.0.html
 
-# RUN pip install torch-sparse -f https://pytorch-geometric.com/whl/torch-1.4.0.html
+RUN pip install torch-sparse -f https://pytorch-geometric.com/whl/torch-1.4.0.html
 
-# RUN pip install torch-cluster -f https://pytorch-geometric.com/whl/torch-1.4.0.html
+RUN pip install torch-cluster -f https://pytorch-geometric.com/whl/torch-1.4.0.html
 
-# RUN pip install torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.4.0.html
+RUN pip install torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.4.0.html
 
 RUN pip install torch-geometric numpy pandas networkx
 
