@@ -11,7 +11,7 @@ from models.gat import GATNet
 from models.gat_gcn import GAT_GCN
 from models.gcn import GCNNet
 from models.ginconv import GINConvNet
-from torch_geometric.data import DataLoader
+from torch_geometric.loader import DataLoader
 from utils import *
 
 datasets = ["davis", "kiba"]

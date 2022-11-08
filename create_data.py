@@ -82,4 +82,4 @@ def create_test(iso_smile, target):
     test_drugs, test_prots,  test_Y = np.asarray(test_drugs), np.asarray(XT), np.asarray(test_Y)
     # make data PyTorch Geometric ready
     print('preparing test.pt in pytorch format!')
-    test_data = TestbedDataset(root='data', dataset='test', xd=test_drugs, xt=test_prots, y=test_Y,smile_graph=SMILE_GRAPH)
+    test_data = TestbedDataset(root='data', dataset='test', x_d=test_drugs, x_t=test_prots, y_affinity=test_Y,smile_graph=SMILE_GRAPH)
