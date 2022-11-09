@@ -11,40 +11,21 @@ RUN apt-key del 7fa2af80
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub
 
-RUN apt-get update && apt-get install -y wget curl unzip libxml2 cuda-minimal-build-11-3 libcusparse-dev-11-3 libcublas-dev-11-3 libcusolver-dev-11-3 vim gcc python3-dev python3-pip
+RUN apt-get update && apt-get install -y wget curl unzip libxml2 cuda-minimal-build-11-3 libcusparse-dev-11-3 libcublas-dev-11-3 libcusolver-dev-11-3 vim gcc python3.8 python3.8-dev python3-pip
 
-# COPY environment.yml /opt/graphdta/environment.yml
+RUN python3.8 -m pip install --upgrade pip
 
-# installing into the base environment since the docker container wont do anything other than run GraphDTA
-# RUN conda env update -n base --file /opt/graphdta/environment.yml && conda clean --all
+RUN python3.8 -m pip install pillow==6.2.2
 
-# RUN conda install -y -c conda-forge rdkit
+RUN python3.8 -m pip install torch==1.11.0+cpu torchvision==0.12.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
 
-# RUN conda install pytorch torchvision cudatoolkit -c pytorch
+RUN python3.8 -m pip install torch-scatter torch-sparse torch-cluster torch-spline-conv torch-geometric -f https://data.pyg.org/whl/torch-1.11.0+cpu.html
 
-# RUN conda install pyg -c pyg
+RUN python3.8 -m pip uninstall -y torch-geometric
 
-RUN pip3 install pillow==6.2.2
+RUN python3.8 -m pip install torch-geometry==1.7.2
 
-RUN pip3 install torch torchvision 
-
-RUN pip3 install torch-scatter -f https://pytorch-geometric.com/whl/torch-1.4.0.html
-
-RUN pip3 install torch-sparse -f https://pytorch-geometric.com/whl/torch-1.4.0.html
-
-RUN pip3 install torch-cluster -f https://pytorch-geometric.com/whl/torch-1.4.0.html
-
-RUN pip3 install torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.4.0.html
-
-RUN pip3 install torch-geometric numpy pandas networkx
-
-RUN wget -P /tmp \
-    "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" \
-    && bash /tmp/Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda \
-    && rm /tmp/Miniconda3-latest-Linux-x86_64.sh
-ENV PATH /opt/conda/bin:$PATH
-
-RUN conda install -c conda-forge rdkit
+RUN python3.8 -m pip install numpy pandas networkx rdkit
 
 RUN mkdir /GraphDTA
 
@@ -64,6 +45,4 @@ COPY models /GraphDTA/models
 
 WORKDIR /GraphDTA
 
-# CMD python3 /GraphDTA/main.py
-
-CMD sleep 20000
+CMD python3 /GraphDTA/main.py

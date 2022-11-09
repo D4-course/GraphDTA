@@ -9,7 +9,7 @@ import os
 # from random import shuffle
 import torch
 # import torch.nn as nn
-from torch_geometric.loader import DataLoader # pylint: disable=import-error
+from torch_geometric.data import DataLoader # pylint: disable=import-error
 from models.gat import GATNet
 from models.gat_gcn import GAT_GCN
 from models.gcn import GCNNet
@@ -35,7 +35,7 @@ def predicting(model, device, loader):
             data = data.to(device)
             output = model(data)
             total_preds = torch.cat((total_preds, output.cpu()), 0) # pylint: disable=no-member
-            total_labels = torch.cat((total_labels, data.y.view(-1, 1).cpu()), 0) # pylint: disable=no-member
+            total_labels = torch.cat((total_labels, data.y_affinity.view(-1, 1).cpu()), 0) # pylint: disable=no-member
     return total_preds.numpy().flatten()
 
 def predict(dataset, modeling):
