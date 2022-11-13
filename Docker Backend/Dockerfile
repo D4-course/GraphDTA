@@ -23,9 +23,9 @@ RUN python3.8 -m pip install torch-scatter torch-sparse torch-cluster torch-spli
 
 RUN python3.8 -m pip uninstall -y torch-geometric
 
-RUN python3.8 -m pip install torch-geometry==1.7.2
+RUN python3.8 -m pip install torch-geometric==1.7.2
 
-RUN python3.8 -m pip install numpy pandas networkx rdkit
+RUN python3.8 -m pip install numpy pandas networkx rdkit pydantic fastapi uvicorn
 
 RUN mkdir /GraphDTA
 
@@ -43,6 +43,8 @@ COPY trained_models /GraphDTA/trained_models
 
 COPY models /GraphDTA/models
 
+COPY data /GraphDTA/data
+
 WORKDIR /GraphDTA
 
-CMD python3 /GraphDTA/main.py
+CMD uvicorn main:app --proxy-headers --host 0.0.0.0 --port 8000
