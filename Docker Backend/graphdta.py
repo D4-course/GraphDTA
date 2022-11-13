@@ -24,7 +24,7 @@ def predict(dta: DTA):
     create the test data and then predict the affinity
     """
     create_test(dta.smiles, dta.protein)
-    dta.dta = predict_with_pretrained_model(dta.dataset, dta.model)
+    dta.dta = float(predict_with_pretrained_model(dta.dataset, dta.model))
     return dta
 
 # create_test("OCCn1cc(-c2ccc3c(c2)CCC3=NO)c(-c2ccncc2)n1", \

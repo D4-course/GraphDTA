@@ -57,7 +57,7 @@ def predict(dataset, modeling):
     model = modeling().to(device)
     model_file_name = "trained_models/model_" + model_st + "_" + dataset + ".model"
     if os.path.isfile(model_file_name):
-        model.load_state_dict(torch.load(model_file_name, map_location=torch.device('cpu'))) # pylint: disable=no-member
+        model.load_state_dict(torch.load(model_file_name, map_location=torch.device('cpu')), strict = False) # pylint: disable=no-member
         predicted_affinity = predicting(model, device, test_loader)
         print("The Predicted Drug Target Affinity is ", predicted_affinity)
         return predicted_affinity[0]
