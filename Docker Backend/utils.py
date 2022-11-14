@@ -27,7 +27,7 @@ class TestbedDataset(InMemoryDataset):
         super(TestbedDataset, self).__init__(root, transform, pre_transform)
         # benchmark dataset, default = 'davis'
         self.dataset = dataset
-        if os.path.isfile(self.processed_paths[0]):
+        if x_d is None and x_t is None and y_affinity is None:
             print(
                 "Pre-processed data found: {}, loading ...".format(
                     self.processed_paths[0]
@@ -35,11 +35,6 @@ class TestbedDataset(InMemoryDataset):
             )
             self.data, self.slices = torch.load(self.processed_paths[0])
         else:
-            print(
-                "Pre-processed data {} not found, doing pre-processing...".format(
-                    self.processed_paths[0]
-                )
-            )
             self.process(x_d, x_t, y_affinity, smile_graph)
             self.data, self.slices = torch.load(self.processed_paths[0])
 
